@@ -73,6 +73,12 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+        - name: Hide Composer files from super-linter
+          run: |
+            for f in composer.json composer.lock; do
+              if [ -f "$f" ]; then mv "$f" "$f.ciignore"; fi
+            done
+            if [ -d vendor ]; then mv vendor vendor.ciignore; fi
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v8
         env:
