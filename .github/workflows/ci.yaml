@@ -73,18 +73,18 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-        - name: Hide Composer files from super-linter
-          run: |
-            for f in composer.json composer.lock; do
-              if [ -f "$f" ]; then mv "$f" "$f.ciignore"; fi
-            done
-            if [ -d vendor ]; then mv vendor vendor.ciignore; fi
+      - name: Hide Composer files from super-linter
+        run: |
+          for f in composer.json composer.lock; do
+            if [ -f "$f" ]; then mv "$f" "$f.ciignore"; fi
+          done
+          if [ -d vendor ]; then mv vendor vendor.ciignore; fi
       - name: Lint Code Base
         uses: super-linter/super-linter/slim@v8
         env:
           GITHUB_ACTIONS_CONFIG_FILE: actionlint.yaml
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_PHP: 'false'
+          VALIDATE_PHP: "false"
           FILTER_REGEX_EXCLUDE: '(^|/)(composer.json|composer.lock|vendor/|\.github/linters/)'
           VALIDATE_CHECKOV: false
           VALIDATE_TRIVY: false
